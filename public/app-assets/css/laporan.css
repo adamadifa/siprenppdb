@@ -1,0 +1,28 @@
+.datatable3 {
+    border: 2px solid #D6DDE6;
+    border-collapse: collapse;
+    /* font-size: 10px; */
+    /*float:left; */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+
+
+}
+
+.datatable3 td {
+    border: 1px solid #000000;
+    padding: 6px;
+    font-size: 10px;
+
+}
+
+
+.datatable3 th {
+    border: 1px solid #000000;
+    font-weight: bold;
+    padding: 4px;
+    text-align: center;
+    font-size: 12px;
+    background-color: green;
+    color: white;
+}
