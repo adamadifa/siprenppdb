@@ -50,8 +50,8 @@ class AuthController extends Controller
 
     public function storeregister(Request $request)
     {
-        $tahunakademik = "2022/2023";
-        $ta = "2223";
+        $tahunakademik = "2023/2024";
+        $ta = "2324";
         $cekpendaftaran = DB::table('pendaftaran_online')
             ->select('no_pendaftaran')
             ->where('tahunakademik', $tahunakademik)
@@ -71,12 +71,12 @@ class AuthController extends Controller
             'password' => 'required|min:6',
             'unit' => 'required'
         ]);
-        if($request->unit=="TK" || $request->unit=="SDIT"){
-            $biaya = 200;
-        }else if($request->unit=="MTS" || $request->unit=="MA"){
-             $biaya = 250;
-        }else if($request->unit=="MDU"){
-             $biaya = 100;
+        if ($request->unit == "TK" || $request->unit == "SDIT") {
+            $biaya = 250;
+        } else if ($request->unit == "MTS" || $request->unit == "MA") {
+            $biaya = 300;
+        } else if ($request->unit == "MDU") {
+            $biaya = 150;
         }
         $simpan = DB::table('pendaftaran_online')->insert([
             'no_pendaftaran' => $no_pendaftaran,
@@ -90,9 +90,9 @@ class AuthController extends Controller
         ]);
 
         if ($simpan) {
-            return redirect('/')->with(['success'=>'Akun Berhasil Dibuat, Silahkan Login']);
+            return redirect('/')->with(['success' => 'Akun Berhasil Dibuat, Silahkan Login']);
         } else {
-            return redirect('/')->with(['success'=>'Akun Gagal Dibuat,Coba Lagi']);
+            return redirect('/')->with(['success' => 'Akun Gagal Dibuat,Coba Lagi']);
         }
     }
 }
