@@ -54,7 +54,7 @@
                     <div class="col-xl-8 col-11 d-flex justify-content-center">
                         <div class="card bg-authentication rounded-0 mb-0">
                             <div class="row m-0">
-                                <div class="col-lg-6 d-lg-block d-none -center pl-0 pr-3 py-0" style="background-color:#054c2e">
+                                <div class="col-lg-6 d-lg-block d-none -center pl-0 pr-3 py-0" style="background-color:#005b92">
                                     <img src="{{asset('app-assets/images/pages/login.png')}}" class="mt-3 mr-2">
                                 </div>
                                 <div class="col-lg-6 col-12 p-0">
@@ -64,7 +64,7 @@
                                                 <h4 class="mb-0">Login</h4>
                                             </div>
                                         </div>
-                                        <p class="px-2">Selamat Datang Di Halaman Login PPDB 2022 - 2023 </p>
+                                        <p class="px-2">Selamat Datang Di Halaman Login PPDB 2023 - 2024 </p>
                                         <div class="card-content">
                                             <div class="card-body pt-1">
                                                 @include('layouts.notification')
