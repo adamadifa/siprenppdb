@@ -20,8 +20,8 @@ class PembayaranController extends Controller
     public function store(Request $request, $no_pendaftaran)
     {
         $no_pendaftaran = Crypt::decrypt($no_pendaftaran);
-        $tahunakademik = "2022/2023";
-        $ta = "2223";
+        $tahunakademik = "2023/2024";
+        $ta = "2324";
         $cekpembayaran = DB::table('konfirmasi_pembayaran')
             ->select('no_transaksi')
             ->join('pendaftaran_online', 'konfirmasi_pembayaran.no_pendaftaran', '=', 'pendaftaran_online.no_pendaftaran')
