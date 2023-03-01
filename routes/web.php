@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenispembiayaanController;
 use App\Http\Controllers\JenissimpananController;
 use App\Http\Controllers\LoaddataController;
+use App\Http\Controllers\PasController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PembiayaanController;
 use App\Http\Controllers\PendaftarController;
@@ -64,3 +65,5 @@ Route::middleware(['auth:pendaftaronline'])->group(function () {
     Route::post('/loaddata/getkecamatan', [LoaddataController::class, 'getkecamatan']);
     Route::post('/loaddata/getkelurahan', [LoaddataController::class, 'getkelurahan']);
 });
+
+Route::get('/pas', [PasController::class, 'index']);
