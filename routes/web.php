@@ -67,3 +67,4 @@ Route::middleware(['auth:pendaftaronline'])->group(function () {
 });
 
 Route::get('/pas', [PasController::class, 'index']);
+Route::post('/storekritiksaran', [PasController::class, 'storekritiksaran']);

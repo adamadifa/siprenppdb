@@ -17,4 +17,18 @@ class PasController extends Controller
 
         return view('pas.index', compact('peserta'));
     }
+
+    public function storekritiksaran(Request $request)
+    {
+        $no_peserta = $request->no_peserta;
+        $kritiksaran = $request->kritiksaran;
+        $update = DB::table('sertifikat')->where('no_peserta', $no_peserta)->update([
+            'kritiksaran' => $kritiksaran
+        ]);
+        if ($update) {
+            echo 0;
+        } else {
+            echo 1;
+        }
+    }
 }

@@ -96,7 +96,7 @@
                                     <td>{{ $d->nama_peserta }}</td>
                                     <td>{{ $d->asal_sekolah }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-primary download"><i class="feather icon-download mr-1"></i>Download</a>
+                                        <a href="#" no_peserta="{{ $d->no_peserta }}" file="{{ $d->file }}" class="btn btn-sm btn-primary download"><i class="feather icon-download mr-1"></i>Download</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -111,23 +111,25 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+
                     <h4 class="modal-title" id="myModalLabel18">Download Sertifikat</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="no_peserta">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <textarea name="kritiksaran" id="" cols="30" rows="10" class="form-control" placeholder="Kritik dan Saran"></textarea>
+                                <textarea name="kritiksaran" id="kritiksaran" cols="30" rows="10" class="form-control" placeholder="Kritik dan Saran"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <a href="#" class="btn btn-success w-100" target="_blank"><i class="feather icon-download mr-1"></i> Download Sertifikat Peserta </a>
+                                <a href="#" id="downloadsertifikat" class="btn btn-success w-100" target="_blank"><i class="feather icon-download mr-1"></i> Download Sertifikat Peserta </a>
                             </div>
                         </div>
                     </div>
@@ -150,7 +152,45 @@
     <script>
         $(function() {
             $(".download").click(function(e) {
+                e.preventDefault();
+                var file = $(this).attr('file');
+                var no_peserta = $(this).attr('no_peserta');
+                $("#no_peserta").val(no_peserta);
+                var link = "{{ asset('assets/sertifikat/')}}/" + file + ".pdf";
+                //alert(link);
+                $("#downloadsertifikat").attr('href', link);
                 $("#mdldownload").modal("show");
+            });
+
+            $("#downloadsertifikat").click(function(e) {
+                e.preventDefault();
+                var no_peserta = $("#no_peserta").val();
+                var kritiksaran = $("#kritiksaran").val();
+                var href = $(this).attr('href');
+                if (kritiksaran == "") {
+                    alert('Silahkan Isi Kritik & Saran Terlebih Dahulu, Agar Kegiatan Ini Kedepannya Bisa Lebih Baik ^_^')
+                    $("#kritiksaran").focus();
+                } else {
+                    $.ajax({
+                        type: 'POST'
+                        , url: '/storekritiksaran'
+                        , data: {
+                            _token: "{{ csrf_token() }}"
+                            , no_peserta: no_peserta
+                            , kritiksaran: kritiksaran
+                        }
+                        , cache: false
+                        , success: function(respond) {
+                            if (respond == 0) {
+                                window.open(href, '_blank');
+                            } else {
+                                alert('error');
+                            }
+                        }
+                    });
+                }
+
+
             });
 
         });
