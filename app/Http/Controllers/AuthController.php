@@ -72,7 +72,7 @@ class AuthController extends Controller
             'unit' => 'required'
         ]);
         if ($request->unit == "TK" || $request->unit == "SDIT") {
-            $biaya = 250;
+            $biaya = 300;
         } else if ($request->unit == "MTS" || $request->unit == "MA") {
             $biaya = 300;
         } else if ($request->unit == "MDU") {
