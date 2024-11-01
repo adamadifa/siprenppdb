@@ -50,8 +50,8 @@ class AuthController extends Controller
 
     public function storeregister(Request $request)
     {
-        $tahunakademik = "2023/2024";
-        $ta = "2324";
+        $tahunakademik = "2025/2026";
+        $ta = "2526";
         $cekpendaftaran = DB::table('pendaftaran_online')
             ->select('no_pendaftaran')
             ->where('tahunakademik', $tahunakademik)
