@@ -21,7 +21,7 @@ class PembayaranController extends Controller
     {
         $no_pendaftaran = Crypt::decrypt($no_pendaftaran);
         $tahunakademik = "2023/2024";
-        $ta = "2324";
+        $ta = "2425";
         $cekpembayaran = DB::table('konfirmasi_pembayaran')
             ->select('no_transaksi')
             ->join('pendaftaran_online', 'konfirmasi_pembayaran.no_pendaftaran', '=', 'pendaftaran_online.no_pendaftaran')
@@ -38,28 +38,41 @@ class PembayaranController extends Controller
         $request->validate([
             'tgl_bayar' => 'required',
             'bank' => 'required',
-            'pemilik_rekening' => 'required'
+            'pemilik_rekening' => 'required',
+            'file' => 'required|file|mimes:jpg,png,pdf|max:2048'
         ]);
         $cek = DB::table('konfirmasi_pembayaran')->where('no_pendaftaran', $no_pendaftaran)->count();
 
-        if (empty($cek)) {
-            $simpan = DB::table('konfirmasi_pembayaran')->insert([
-                'no_transaksi' => $no_transaksi,
-                'no_pendaftaran' => $no_pendaftaran,
-                'tgl_bayar' => $request->tgl_bayar,
-                'bank' => $request->bank,
-                'pemilik_rekening' => $request->pemilik_rekening,
-                'biaya_pendaftaran' => str_replace(".", "", $request->biaya_pendaftaran),
-                'status' => '0'
-            ]);
+        DB::beginTransaction();
+        try {
+            if (empty($cek)) {
+                if ($request->hasFile('file')) {
+                    $file = $request->file('file');
+                    $filename = $no_pendaftaran . '_' . $file->getClientOriginalName();
+                    $file->storeAs('public/uploads', $filename);
+                }
 
-            if ($simpan) {
+                $simpan = DB::table('konfirmasi_pembayaran')->insert([
+                    'no_transaksi' => $no_transaksi,
+                    'no_pendaftaran' => $no_pendaftaran,
+                    'tgl_bayar' => $request->tgl_bayar,
+                    'bank' => $request->bank,
+                    'pemilik_rekening' => $request->pemilik_rekening,
+                    'biaya_pendaftaran' => str_replace(".", "", $request->biaya_pendaftaran),
+                    'status' => '0',
+                    'file' => isset($filename) ? $filename : null
+                ]);
+
+
+
+                DB::commit();
                 return redirect('/pembayaran')->with(['success' => 'Data Berhasil Disimpan']);
             } else {
-                return redirect('/pembayaran')->with(['warning' => 'Data Gagal Disimpan']);
+                return redirect('/pembayaran')->with(['warning' => 'Anda Sudah Melakukan Konfirmasi Pembayaran']);
             }
-        } else {
-            return redirect('/pembayaran')->with(['warning' => 'Anda Sudah Melakukan Konfirmasi Pembayaran']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect('/pembayaran')->with(['warning' => 'Data Gagal Disimpan']);
         }
     }
 
