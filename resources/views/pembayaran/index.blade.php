@@ -65,8 +65,8 @@
                                         <div class="card-body">
                                             Silahkan Melakukan Pembayaran Sejumlah <b>Rp.
                                                 {{ number_format($pendaftar->biaya_pendaftaran, '0', '', '.') }}</b>
-                                            No. Rek <b> BSI : 7085588887</b> an. <b>Pesantren Persis 80 Ciamis</b> <br>
-                                            <img src="{{ asset('app-assets/images/infopembayaran.jpg') }}" width="400x" height="400px" alt="">
+                                            No. Rek <b> BSI : 7085588887</b> an. <b>Pesantren Nurul Iman Cigalontang</b> <br>
+                                            {{-- <img src="{{ asset('app-assets/images/infopembayaran.jpg') }}" width="400x" height="400px" alt=""> --}}
                                         </div>
                                     </div>
                                 </div>

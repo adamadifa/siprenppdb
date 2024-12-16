@@ -20,8 +20,12 @@ class PembayaranController extends Controller
     public function store(Request $request, $no_pendaftaran)
     {
         $no_pendaftaran = Crypt::decrypt($no_pendaftaran);
-        $tahunakademik = "2023/2024";
-        $ta = "2425";
+        // $tahunakademik = "2025/2026";
+        // $ta = "2425";
+        $ta_aktif = DB::table('tahunakademik')->where('status', '1')->first();
+        $tahunakademik = $ta_aktif->tahunakademik;
+        $t = explode("/", $tahunakademik);
+        $ta = substr($t[0], 2) . substr($t[1], 2);
         $cekpembayaran = DB::table('konfirmasi_pembayaran')
             ->select('no_transaksi')
             ->join('pendaftaran_online', 'konfirmasi_pembayaran.no_pendaftaran', '=', 'pendaftaran_online.no_pendaftaran')
@@ -72,6 +76,7 @@ class PembayaranController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             return redirect('/pembayaran')->with(['warning' => 'Data Gagal Disimpan']);
         }
     }
